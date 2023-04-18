@@ -31,7 +31,7 @@
 * REST API, is a web service that follows the principles of Representational State Transfer (REST) architecture.
 * REST is a set of architectural constraints that are applied to web services, which can be used to create highly scalable and flexible web services.
 
-![image Working](images/rest-api-working.PNG)
+![image Working1](images/rest-api-working.png)
 
 **What is API?**<!-- style="font-size:20px;font-family:Times New Roman;" -->
 
