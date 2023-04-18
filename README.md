@@ -17,7 +17,8 @@
 ## **REST API**
 
 * [**Introduction**](#introduction)<!-- style="font-size:18px" -->
-* **Need of Rest**<!-- style="font-size:18px" -->
+* [**Need of Rest**](#need-of-rest)<!-- style="font-size:18px" -->
+* **Rest Principle**<!-- style="font-size:18px" -->
 * **RestFul Web API**<!-- style="font-size:18px" -->
 * **Comparison of APIs**<!-- style="font-size:18px" -->
 * **An Intuitive understanding of REST**<!-- style="font-size:18px" -->
@@ -51,3 +52,13 @@ What the server does when you, the client, call one of its APIs depends on 2 thi
 
 * An identifier for the resource you are interested in. This is the URL for the resource, also known as the endpoint. In fact, URL stands for Uniform Resource Locator.
 * The operation you want the server to perform on that resource, in the form of an HTTP method, or verb. The common HTTP methods are GET, POST, PUT, and DELETE.
+
+### **Need of Rest**
+
+* Seperate Client & Server
+* REST is Independent of platform and language
+* Flexibility & Scalability
+* Not Constrained to one format can return (Xml,JSON etcc)
+* Since built on top of HTTP, can take adavantage of HTTP cache
+* Easy to use
+* Discoverability
