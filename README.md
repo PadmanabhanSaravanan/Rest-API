@@ -19,7 +19,7 @@
 * [**Introduction**](#introduction)<!-- style="font-size:18px" -->
 * [**Need of Rest**](#need-of-rest)<!-- style="font-size:18px" -->
 * [**Rest Principle**](#rest-principle)<!-- style="font-size:18px" -->
-* **RestFul Web API**<!-- style="font-size:18px" -->
+* [**RestFul Web API**](#restful-web-api)<!-- style="font-size:18px" -->
 * **Comparison of APIs**<!-- style="font-size:18px" -->
 * **An Intuitive understanding of REST**<!-- style="font-size:18px" -->
 * **REST Constraints**<!-- style="font-size:18px" -->
@@ -71,3 +71,16 @@ What the server does when you, the client, call one of its APIs depends on 2 thi
 * **Cacheability** : When possible, resources should be cacheable on the client or server side. Server responses also need to contain information about whether caching is allowed for the delivered resource. The goal is to improve performance on the client side, while increasing scalability on the server side.
 * **Layered system architecture** In REST APIs, the calls and responses go through different layers. As a rule of thumb, don’t assume that the client and server applications connect directly to each other. There may be a number of different intermediaries in the communication loop. REST APIs need to be designed so that neither the client nor the server can tell whether it communicates with the end application or an intermediary.
 * **Code on demand** : REST APIs usually send static resources, but in certain cases, responses can also contain executable code (such as Java applets). In these cases, the code should only run on-demand.
+
+### **RestFul Web API**
+
+Web API is an API as the name suggests, it can be accessed over the web using the HTTP protocol. It is a framework that helps you to create and develop HTTP based RESTFUL services. The web API can be developed by using different technologies such as java, ASP.NET, etc. 
+
+**Need for Web API**<!-- style="font-size:20px;font-family:Times New Roman;" -->
+
+* A Web API helps to access service data from different internet devices like browsers, mobile apps, and other devices.
+* Helps to work on RESTful web services.
+* Helps to develop light weighted and maintainable Web Services.
+* Used to create both types of services RESTful and non-RESTful services.
+* Also supports JSON, XML, and other data formats.
+* Helps to develop services supporting all features of HTTP services such as like caching, request/response headers, versioning, etc.
