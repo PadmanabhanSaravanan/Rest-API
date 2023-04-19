@@ -197,4 +197,94 @@ http://localhost:8080/users and the server sends proper response 200 OK.
 
 Level 3 is the highest level. It is the combination of level 2 and HATEOAS. It also provides support for HATEOAS. It is helpful in self-documentation.
 
-For example, if we send a GET request for customers, we will get a response for customers in JSON format with self-documenting Hypermedia.
+For example, if we send a GET request for users, we will get a response for users in JSON format with self-documenting Hypermedia.
+
+## **Request & Response**
+
+* [**HTTP Request**](#understanding-http-request) <!-- style="font-size:18px" -->
+* [**HTTP Response**](#http-responses) <!-- style="font-size:18px" -->
+* [**HTTP Methods**](#http-methods) <!-- style="font-size:18px" -->
+* [**Designing Rest URLs**](#designing-rest-urls) <!-- style="font-size:18px" -->
+
+### **HTTP Request**
+
+* HTTP Request is a message from client to server
+* If user clicks on the below hyperlink
+
+```markdown
+href = "http://localhost:8081/categories/02/books"
+
+Show all the books in the 2nd Categories
+```
+
+* The HTTP Message request will be sent a
+
+```markdown
+GET: /categories/02/books HTTP/1.1
+HOST:localhost:8081
+User-Agent:Mozilla/4.0 (Compatible; Windows NT)
+```
+
+* URL - /categories/02/books
+* Request Method - GET 
+* HTTP Specification - 1.1
+* Domain: localhost,Port:8081
+
+### **HTTP Responses**
+
+* HTTP Response is a message from server to client.
+* For every request, there will be response
+* An Typical HTTP Response
+
+```markdown
+HTTP/1.1 200 OK
+DATE: Wed,19 Apr 2023 02:12:55 GMT
+Content-Type: application/json; charset=utf-16
+Content-Length:31
+
+{
+    "id":1,
+    "name":"John"
+}
+```
+* 200 OK is the HTTP Status code.
+* Content Type indicates the type of the content within the message body.
+* Content Length indicates the total no of characters in the message body.
+* We can see the request & response in developers tools in your browser.
+
+### **HTTP Methods**
+
+For HTTP/1.1, the set of common methods are defined below. This set can be expanded based on the requirements. The name of these methods is case sensitive, and they must be used in uppercase.
+
+| **_Method_**                     | **_Description_**                                                                                                                                                                 |
+|----------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **GET**                          | The GET method is used to retrieve information from the given server using a given URI. Requests using GET should only retrieve data and should have no other effect on the data. |
+| **HEAD**                         | Same as GET, but it transfers the status line and the header section only.                                                                                                        |
+| **POST**                         | A POST request is used to send data to the server, for example, customer information, file upload, etc. using HTML forms.                                                         |
+| **PUT**                          | Replaces all the current representations of the target resource with the uploaded content.                                                                                        |
+| **DELETE**                       | Removes all the current representations of the target resource given by URI.                                                                                                      |
+| **CONNECT**                      | Establishes a tunnel to the server identified by a given URI.                                                                                                                     |
+| **OPTIONS**                      | Describe the communication options for the target resource.                                                                                                                       |
+| **TRACE**                        | Performs a message loop back test along with the path to the target resource.                                                                                                     |
+
+### **Designing Rest URLs**
+
+* Represent Hierarchial relationships by '/'
+
+> Example: `http://localhost:8081/ProductCategory/SubCategory/Products`
+> <br>
+> within product category,there are many sub categories,and with subcategories there are many products
+
+*  Use plural nouns when required 
+
+> Example: `http://localhost:8081/Organization/Departments/1`
+> <br>
+> To indicate that there are many departments within an organization
+
+* Design to improve redability 
+
+> Example: **USE** `http://localhost:8081/Products/user-ratings`
+> <br>
+> **rather than** `http://localhost:8081/Products/userRatings`
+
+* Do not use file extensions like .html,.asp etc..,
