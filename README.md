@@ -48,7 +48,7 @@ The representation of the state can be in a JSON format, and probably for most A
 
 What the server does when you, the client, call one of its APIs depends on 2 things that you need to provide to the server:
 
-* An identifier for the resource you are interested in. This is the URL for the resource, also known as the endpoint. In fact, URL stands for Uniform Resource Locator.
+* An identifier for the resource you are interested in. This is the URI for the resource, also known as the endpoint. In fact, URI stands for Uniform Resource Locator.
 * The operation you want the server to perform on that resource, in the form of an HTTP method, or verb. The common HTTP methods are GET, POST, PUT, and DELETE.
 
 ### **Need of Rest**
@@ -165,7 +165,7 @@ There are four levels:
 
 #### **Level 0 The Swamp of POX**
 
-Level 0 is also often referred to as POX (Plain Old XML). At level 0, HTTP is used only as a transport protocol. For zero maturity level services, we use a single URL and a single HTTP method. We send a request to the same URI for obtaining and posting the data. Only the POST method can be used. for example, A particular company can have a lot of customers or users. We have only one endpoint for all the customers. All operations are performed via the POST method.  
+Level 0 is also often referred to as POX (Plain Old XML). At level 0, HTTP is used only as a transport protocol. For zero maturity level services, we use a single URI and a single HTTP method. We send a request to the same URI for obtaining and posting the data. Only the POST method can be used. for example, A particular company can have a lot of customers or users. We have only one endpoint for all the customers. All operations are performed via the POST method.  
 
 ```markdown
 To get the data: POST http://localhost:8080/users
@@ -204,7 +204,7 @@ For example, if we send a GET request for users, we will get a response for user
 * [**HTTP Request**](#understanding-http-request) <!-- style="font-size:18px" -->
 * [**HTTP Response**](#http-responses) <!-- style="font-size:18px" -->
 * [**HTTP Methods**](#http-methods) <!-- style="font-size:18px" -->
-* [**Designing Rest URLs**](#designing-rest-urls) <!-- style="font-size:18px" -->
+* [**Designing Rest URIs**](#designing-rest-URIs) <!-- style="font-size:18px" -->
 
 ### **HTTP Request**
 
@@ -225,7 +225,7 @@ HOST:localhost:8081
 User-Agent:Mozilla/4.0 (Compatible; Windows NT)
 ```
 
-* URL - /categories/02/books
+* URI - /categories/02/books
 * Request Method - GET 
 * HTTP Specification - 1.1
 * Domain: localhost,Port:8081
@@ -267,7 +267,7 @@ For HTTP/1.1, the set of common methods are defined below. This set can be expan
 | **OPTIONS**                      | Describe the communication options for the target resource.                                                                                                                       |
 | **TRACE**                        | Performs a message loop back test along with the path to the target resource.                                                                                                     |
 
-### **Designing Rest URLs**
+### **Designing Rest URIs**
 
 * Represent Hierarchial relationships by '/'
 
@@ -288,3 +288,78 @@ For HTTP/1.1, the set of common methods are defined below. This set can be expan
 > **rather than** `http://localhost:8081/Products/userRatings`
 
 * Do not use file extensions like .html,.asp etc..,
+
+## **Creating RestFul Services**
+
+* [**Controllers and Actions**](#controllers-and-actions) <!-- style="font-size:18px" -->
+* [**Creating Routing Templates**](#creating-routing-templates) <!-- style="font-size:18px" -->
+* [**Understanding Routing Attributes**](#understanding-routing-attributes) <!-- style="font-size:18px" -->
+* [**Using Parameters in Request**](#using-parameters-in-request) <!-- style="font-size:18px" -->
+* [**Model Validation**](#model-validation) <!-- style="font-size:18px" -->
+
+### **Controllers and Actions**
+
+* Controllers are nothing but classes that inherit from APIController class
+* When a user hits an URI, the URI will be mapped to the appropriate Controller according to the routing defined.
+* Controllers have Methods called Actions
+* So every request to a URI will invoke the method in the appropriate Controller. The method will get executed and return a HTTP Response.
+
+### **Creating Routing Templates**
+
+* A Route template looks similar to URI with placeholders
+* When a route template is created, you can specify defaults
+> **Example:**
+><br>
+>`api/{controller}/{ProductCategory}/{id}`
+><br>
+>defaults: new {ProductCategory = "Books"}
+><br>
+>For this template, an URI like `api/Products/2` will always fetch data from Books category 
+* A route template can also provide constraints
+> new `{id : int}`
+> <br>
+> For the above example, the request wil be routed only if the id is of type integer.
+
+### **Understanding Routing Attributes**
+
+* By default, a GET request on a URI, Web API will route the request to a method name that is 'GET' or starts with 'Get..'
+
+* **Example:** A Get request on a URI can invoke any of the action methods
+
+    1. GET()
+    2. GetCustomers()
+
+* Or,alternatively, you can decorate the Action method with any of the attributes
+
+    1. HttpGet
+    2. HttpPut
+    3. HttpPost
+    4. HttpDelete
+
+* You can also use [Accept Verbs] attribute to allow only certain requests to a method
+
+* To prevent a method from getting invoked, you can use the [NonAction] attribute
+
+### **Using Parameters in Request**
+
+* Parameter binding is passing parameters from URI/requests to the Action methods.
+* If the parameter is a simple type, Web API tries to read the parameter from the URI.
+* If the parameter is a complex type, Web API tries to read the parameter from the Request Body using mediatype formatter.
+* **Example:** 
+> MethodName(int price,Product p)
+> <br>
+> For this Method, since price is a simple type, it tries to read the value from the URL
+> <br>
+> Since product is a complex type, it tries to read the value from the Request Body.
+
+### **Model Validation**
+
+* Sometimes, we need to validate the data before doing any processing. This is called Model Validation.
+* We case use Data Annotation to perform model validation.
+* Some of the commonly used Annotations are:
+
+    1. [Required] - to indicate that a field is required
+    2. [Range(0,10)] - to specify that the input values in this range.
+* You can use ModelState .isValid to check the data against the validation attributes.
+* Under-Posting - if all the values of a class are not specified.
+* Over-Posting - if additional values of class are specified.
