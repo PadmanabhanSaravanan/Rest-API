@@ -20,8 +20,7 @@
 * [**Need of Rest**](#need-of-rest)<!-- style="font-size:18px" -->
 * [**Rest Principle**](#rest-principle)<!-- style="font-size:18px" -->
 * [**RestFul Web API**](#restful-web-api)<!-- style="font-size:18px" -->
-* **Comparison of APIs**<!-- style="font-size:18px" -->
-* **An Intuitive understanding of REST**<!-- style="font-size:18px" -->
+* [**An Intuitive understanding of REST**](#an-intuitive-understanding-of-rest) <!-- style="font-size:18px" -->
 * **REST Constraints**<!-- style="font-size:18px" -->
 * **Concept of Serialization**<!-- style="font-size:18px" -->
 * **Concept of Deserialization**<!-- style="font-size:18px" -->
@@ -84,3 +83,10 @@ Web API is an API as the name suggests, it can be accessed over the web using th
 * Used to create both types of services RESTful and non-RESTful services.
 * Also supports JSON, XML, and other data formats.
 * Helps to develop services supporting all features of HTTP services such as like caching, request/response headers, versioning, etc.
+
+### **An Intuitive understanding of REST**
+
+* Rest is an architectural style
+* Restful is referred to web services that implements REST
+* It is simply a program that returns data from the database to the client in a format that it requests.
+* It is based on HTTP, it reterives data through standard HTTP methods. GET,PUT,POST & DELETE.
