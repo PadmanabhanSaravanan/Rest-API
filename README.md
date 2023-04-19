@@ -6,7 +6,7 @@
 
 1. [**REST API**](#rest-api)<!-- style="font-size:20px" -->
 
-2. **Request & Response**<!-- style="font-size:20px" -->
+2. [**Request & Response**](#request-and-response)<!-- style="font-size:20px" -->
 
 3. **Creating RestFul Services**<!-- style="font-size:20px" -->
 
@@ -199,7 +199,7 @@ Level 3 is the highest level. It is the combination of level 2 and HATEOAS. It a
 
 For example, if we send a GET request for users, we will get a response for users in JSON format with self-documenting Hypermedia.
 
-## **Request & Response**
+## **Request and Response**
 
 * [**HTTP Request**](#understanding-http-request) <!-- style="font-size:18px" -->
 * [**HTTP Response**](#http-responses) <!-- style="font-size:18px" -->
