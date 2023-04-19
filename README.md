@@ -21,9 +21,9 @@
 * [**RestFul Web API**](#restful-web-api)<!-- style="font-size:18px" -->
 * [**An Intuitive understanding of REST**](#an-intuitive-understanding-of-rest) <!-- style="font-size:18px" -->
 * [**REST Constraints or Principles**](#rest-constraints) <!-- style="font-size:18px" -->
-* **Concept of Serialization**<!-- style="font-size:18px" -->
-* **Concept of Deserialization**<!-- style="font-size:18px" -->
-* **Richardson Maturity Model**<!-- style="font-size:18px" -->
+* [**Serialization**](#serialization)<!-- style="font-size:18px" -->
+* [**Deserialization**](#deserialization)<!-- style="font-size:18px" -->
+* [**Richardson Maturity Model**](#richardson-maturity-model)<!-- style="font-size:18px" -->
 
 ### **INTRODUCTION**
 
@@ -131,3 +131,70 @@ An application architecture needs to be composed of multiple layers. Each layer 
 #### **Code on demand**
 
 It is an optional feature. According to this, servers can also provide executable code to the client. The examples of code on demand may include the compiled components such as Java Servlets and Server-Side Scripts such as JavaScript. 
+
+### **Serialization**
+
+Serialization is a process of converting an object from its current state to a stream of bytes which can be written to a file or transported through a network or stored in a database.
+
+Can serialize to any encoding format. Popular ones are Xml & JSON.
+
+![image serialization](images/serialization-diagram.png)
+
+### **Deserialization**
+
+Deserialization is the process of converting a stream of data into objects.The main purpose of serialization and deserialization is to persist the data and recreate whenever needed.
+
+Can Deserialize from any encoding format. Popular ones are Xml & JSON.
+
+![image deserialization](images/deserialization.jpg)
+
+### **Richardson Maturity Model**
+
+* Richardson Maturity Model is a model developed by Lenoard Richardson.
+* It grades APIs by their RestFul maturity.
+* It breaks down the principal element of the REST approach into four levels (0 to 3).
+
+There are four levels:
+
+* [**Level 0: The Swamp of POX**](#level-0-the-swamp-of-pox)
+* [**Level 1: Resources**](#level-1-resources)
+* [**Level 2: HTTP Verbs**](#level-2-http-verbs)
+* [**Level 3: Hypermedia Control**](#level-3-hypermedia-control)
+
+![image Richardson Maturity Model](images/richardson.png)
+
+#### **Level 0 The Swamp of POX**
+
+Level 0 is also often referred to as POX (Plain Old XML). At level 0, HTTP is used only as a transport protocol. For zero maturity level services, we use a single URL and a single HTTP method. We send a request to the same URI for obtaining and posting the data. Only the POST method can be used. for example, A particular company can have a lot of customers or users. We have only one endpoint for all the customers. All operations are performed via the POST method.  
+
+```markdown
+To get the data: POST http://localhost:8080/users
+To post the data: POST http://localhost:8080/users
+```
+
+#### **Level 1 Resources**
+
+In level 1 , each resource is mapped to a specific URI. However, only one HTTP method (POST) is used for retrieving and creating data. for example, we need to access the employees working in a company.
+
+```markdown
+To add an employee to a particular department:
+POST/department/<department-id>/employee
+To access a specific employee :
+POST/department/<department-id>/employee/<employee-id>
+```
+
+#### **Level 2 HTTP Verbs**
+
+At Level 2 requests are sent with the correct HTTP verb. A correct HTTP response code is returned for each request.
+
+For example: To get the users of the company, we send a request with the URI
+
+```markdown
+http://localhost:8080/users and the server sends proper response 200 OK.
+```
+
+#### **Level 3 Hypermedia Control**
+
+Level 3 is the highest level. It is the combination of level 2 and HATEOAS. It also provides support for HATEOAS. It is helpful in self-documentation.
+
+For example, if we send a GET request for customers, we will get a response for customers in JSON format with self-documenting Hypermedia.
