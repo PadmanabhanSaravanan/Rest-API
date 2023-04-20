@@ -365,3 +365,389 @@ For HTTP/1.1, the set of common methods are defined below. This set can be expan
 * Over-Posting - if additional values of class are specified.
 
 ## **Spring Boot CRUD REST API using MySQL Database**
+
+* [**Initializing Spring Project**](#initializing-spring-project) <!-- style="font-size:18px" -->
+* [**Project Structure**](#project-structure) <!-- style="font-size:18px" -->
+* [**Configuring MySQL Database**](#configuring-mysql-database) <!-- style="font-size:18px" -->
+* [**Create JPA Entity**](#create-jpa-entity) <!-- style="font-size:18px" -->
+* [**Create Spring Data JPA Repository**](#create-spring-data-jpa-repository) <!-- style="font-size:18px" -->
+* [**Service Layer Implementation**](#service-layer-implementation) <!-- style="font-size:18px" -->
+* [**Building CRUD Rest APIs**](#building-crud-rest-apis) <!-- style="font-size:18px" -->
+* [**Test CRUD REST APIs using Postman**](#test-crud-rest-apis-using-postman) <!-- style="font-size:18px" -->
+
+### **Initializing Spring Project**
+
+You can use the Spring Initializer website (start.spring.io) to generate a new Spring Boot project with the necessary dependencies.
+
+Refer to the below screenshot to enter details while creating the spring boot application using the [spring initializr](https://start.spring.io/):
+
+![image spring](images/spring-1.PNG)
+
+Click on Generate button to download the Spring boot project as a zip file. Unzip the zip file and import the Spring boot project in Spring Tool Suite.
+
+Here is the pom.xml file for your reference:
+
+```htm
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.0.5</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.employee</groupId>
+	<artifactId>EmployeeManagement</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>EmployeeManagement</name>
+	<description>Demo project for Spring Boot</description>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>  
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
+
+```
+
+### **Project Structure**
+
+Refer to the below screenshot to create a project structure or a packing structure for our Spring boot application:
+
+![image spring](images/spring-2.PNG)
+
+### **Configuring MySQL Database**
+
+Since we’re using MySQL as our database, we need to configure the URL, username, and password so that our Spring boot can establish a connection with the database on startup. Open the `src/main/resources/application.properties` file and add the following properties to it:
+
+```markdown
+## MYSQL Configuration
+spring.datasource.url=jdbc:mysql://localhost:3306/db_restapi?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false
+spring.datasource.username=root
+spring.datasource.password=password
+
+## JPA PROPERTIES
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+spring.jpa.hibernate.ddl-auto=update
+```
+
+Don’t forget to change the spring.datasource.username and spring.datasource.password as per your MySQL installation.
+
+### **Create JPA Entity**
+
+An Entity is a plain old Java object (POJO) that represents the data you want to store. You will need to annotate the class with @Entity and define the fields of the class along with the getters and setters for each field.
+
+Let's create a Employee JPA entity class with the following fields: 
+id - primary key
+firstName - employee first name
+lastName - employee last name
+email - employee email ID
+
+```java
+package com.employee.entity;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name="employee")
+public class Employee {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
+	
+	@Column(name = "first_name", nullable = false)
+	private String firstName;
+	
+	@Column(name = "last_name")
+	private String lastName;
+	
+	@Column(name = "email")
+	private String email;
+
+}
+```
+
+Note that we are using Lombok annotations to reduce the boilerplate code such as getter/setter methods, and constructors.
+
+We are using below JPA annotations to map an Entity with a database table:
+
+* @Entity annotation is used to mark the class as a persistent Java class.
+* @Table annotation is used to provide the details of the table that this entity will be mapped to.
+* @Id annotation is used to define the primary key.
+* @GeneratedValue annotation is used to define the primary key generation strategy. In the above case, we have declared the primary key to be an Auto Increment field.
+* @Column annotation is used to define the properties of the column that will be mapped to the annotated field. You can define several properties like name, length, nullable, updateable, etc.
+
+### **Create Spring Data JPA Repository**
+
+Let's create a EmployeeRepository to access the Employee's data from the database.
+
+Well, Spring Data JPA comes with a JpaRepository interface that defines methods for all the CRUD operations on the entity, and a default implementation of JpaRepository called SimpleJpaRepository.
+
+```java
+package com.employee.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.employee.entity.Employee;
+
+@Repository
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+
+}
+```
+
+### **Service Layer Implementation**
+
+This layer will contain the business logic for the API and will be used to perform CRUD operations using the Repository.
+
+**EmployeeService Interface**
+
+```java
+package com.employee.service;
+
+import java.util.List;
+
+import com.employee.entity.Employee;
+
+public interface EmployeeService {
+	
+	    Employee createEmployee(Employee employee);
+
+	    Employee getEmployeeById(Long employeeId);
+
+	    List<Employee> getAllEmployee();
+
+	    Employee updateEmployee(Employee employee);
+
+	    void deleteEmployee(Long employeeId);
+	
+}
+```
+
+**EmployeeServiceImpl Class**
+
+```java
+package com.employee.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import com.employee.entity.Employee;
+import com.employee.repository.EmployeeRepository;
+
+import lombok.AllArgsConstructor;
+
+@Service
+@AllArgsConstructor
+public class EmployeeServiceImpl implements EmployeeService {
+
+	private EmployeeRepository employeeRepository;
+
+	@Override
+	public Employee createEmployee(Employee employee) {
+		return employeeRepository.save(employee);
+	}
+
+	@Override
+	public Employee getEmployeeById(Long employeeId) {
+		Optional<Employee> optionalUser = employeeRepository.findById(employeeId);
+		return optionalUser.get();
+	}
+
+	@Override
+	public List<Employee> getAllEmployee() {
+		return employeeRepository.findAll();
+	}
+
+	@Override
+	public Employee updateEmployee(Employee employee) {
+		Employee existingEmployee = employeeRepository.findById(employee.getId()).get();
+		existingEmployee.setFirstName(employee.getFirstName());
+		existingEmployee.setLastName(employee.getLastName());
+		existingEmployee.setEmail(employee.getEmail());
+		Employee updatedEmployee = employeeRepository.save(existingEmployee);
+		return updatedEmployee;
+	}
+
+	@Override
+	public void deleteEmployee(Long employeeId) {
+		employeeRepository.deleteById(employeeId);
+	}
+}
+```
+
+### **Building CRUD Rest APIs**
+
+The controller is responsible for handling incoming HTTP requests and returning the appropriate response. You will need to define the endpoints of the API and map them to the appropriate methods in the Service layer.
+
+Let's create the REST APIs for creating, retrieving, updating, and deleting a Employee:
+
+```java
+package com.employee.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.employee.entity.Employee;
+import com.employee.service.EmployeeService;
+
+import lombok.AllArgsConstructor;
+
+@RestController
+@AllArgsConstructor
+@RequestMapping("/api/employee")
+public class EmployeeController {
+	
+	@Autowired
+	private EmployeeService employeeService;
+	
+	// build create employee REST API
+	@PostMapping
+    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee){
+        Employee savedEmployee = employeeService.createEmployee(employee);
+        return new ResponseEntity<>(savedEmployee, HttpStatus.CREATED);
+    }
+	
+	// build get employee by id REST API
+    // http://localhost:8080/api/employee/1
+	@GetMapping("{id}")
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Long userId){
+		Employee employee = employeeService.getEmployeeById(userId);
+        return new ResponseEntity<>(employee, HttpStatus.OK);
+    }
+	
+	// Build Get All Employees REST API
+    // http://localhost:8080/api/employee
+	@GetMapping
+    public ResponseEntity<List<Employee>> getAllEmployee(){
+        List<Employee> employee = employeeService.getAllEmployee();
+        return new ResponseEntity<>(employee, HttpStatus.OK);
+    }
+	
+	// Build Update Employee REST API
+	// http://localhost:8080/api/employee/1
+	@PutMapping("{id}")
+    public ResponseEntity<Employee> updateEmployee(@PathVariable("id") Long employeeId,
+                                           @RequestBody Employee employee){
+		employee.setId(employeeId);
+        Employee updatedEmployee = employeeService.updateEmployee(employee);
+        return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
+    }
+	
+	// Build Delete Employee REST API
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable("id") Long employeeId){
+        employeeService.deleteEmployee(employeeId);
+        return new ResponseEntity<>("Employee successfully deleted!", HttpStatus.OK);
+    }
+
+}
+```
+
+### **Test CRUD REST APIs using Postman**
+
+* [**Create User REST API**](#create-user-rest-api) <!-- style="font-size:18px" -->
+* [**Get Single User REST API**](#get-single-user-rest-api) <!-- style="font-size:18px" -->
+* [**Update User REST API**](#update-user-rest-api) <!-- style="font-size:18px" -->
+* [**Get All Users REST API**](#get-all-users-rest-api) <!-- style="font-size:18px" -->
+* [**Delete User REST API**](#delete-user-rest-api) <!-- style="font-size:18px" -->
+
+#### **Create User REST API**
+
+<br>
+
+![image spring](images/spring-3.PNG)
+
+#### **Get Single User REST API**
+
+<br>
+
+![image spring](images/spring-4.PNG)
+
+#### **Update User REST API**
+
+<br>
+
+![image spring](images/spring-5.PNG)
+
+#### **Get All Users REST API**
+
+<br>
+
+![image spring](images/spring-6.PNG)
+
+#### **Delete User REST API**
+
+<br>
+
+![image spring](images/spring-7.PNG)
