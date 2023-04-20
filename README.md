@@ -8,9 +8,9 @@
 
 2. [**Request & Response**](#request-and-response)<!-- style="font-size:20px" -->
 
-3. **Creating RestFul Services**<!-- style="font-size:20px" -->
+3. [**Creating RestFul Services**](#creating-restful-services) <!-- style="font-size:20px" -->
 
-4. **Working with Database**<!-- style="font-size:20px" -->
+4. [**Spring Boot CRUD REST API using MYSQL Database**](#spring-boot-crud-rest-api-using-mysql-database) <!-- style="font-size:20px" -->
 
 5. **Caching**<!-- style="font-size:20px" -->
 
@@ -300,9 +300,9 @@ For HTTP/1.1, the set of common methods are defined below. This set can be expan
 ### **Controllers and Actions**
 
 * Controllers are nothing but classes that inherit from APIController class
-* When a user hits an URI, the URI will be mapped to the appropriate Controller according to the routing defined.
+* When a user hits an URL, the URL will be mapped to the appropriate Controller according to the routing defined.
 * Controllers have Methods called Actions
-* So every request to a URI will invoke the method in the appropriate Controller. The method will get executed and return a HTTP Response.
+* So every request to a URL will invoke the method in the appropriate Controller. The method will get executed and return a HTTP Response.
 
 ### **Creating Routing Templates**
 
@@ -322,7 +322,7 @@ For HTTP/1.1, the set of common methods are defined below. This set can be expan
 
 ### **Understanding Routing Attributes**
 
-* By default, a GET request on a URI, Web API will route the request to a method name that is 'GET' or starts with 'Get..'
+* By default, a GET request on a URL, Web API will route the request to a method name that is 'GET' or starts with 'Get..'
 
 * **Example:** A Get request on a URI can invoke any of the action methods
 
@@ -363,3 +363,5 @@ For HTTP/1.1, the set of common methods are defined below. This set can be expan
 * You can use ModelState .isValid to check the data against the validation attributes.
 * Under-Posting - if all the values of a class are not specified.
 * Over-Posting - if additional values of class are specified.
+
+## **Spring Boot CRUD REST API using MySQL Database**
