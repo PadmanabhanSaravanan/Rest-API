@@ -14,7 +14,7 @@
 
 5. [**CORS and Enabling CORS**](#cors-and-enabling-cors) <!-- style="font-size:20px" -->
 
-6. **Caching**<!-- style="font-size:20px" -->
+6. [**Caching**](#caching)<!-- style="font-size:20px" -->
 
 ## **REST API**
 
@@ -795,3 +795,141 @@ Unless the requests is from the same origin, the request will be rejected by bro
 
 * Add config.EnableCORS in WebAPIConfig
 * Add [EnableCors] attribute to controller class
+
+## **Caching**
+
+* [**Introduction to Caching**](#introduction-to-caching)<!-- style="font-size:18px" -->
+* [**Expiration Model**](#expiration-model)<!-- style="font-size:18px" -->
+* [**Validation Model**](#validation-model)<!-- style="font-size:18px" -->
+* [**Cache Control Directives**](#cache-control-directives)<!-- style="font-size:18px" -->
+* [**Concurrency in Rest**](#concurrency-in-rest)<!-- style="font-size:18px" -->
+* [**JSON Serialization**](#json-serialization)<!-- style="font-size:18px" -->
+* [**Cache Model Validation**](#cache-model-validation)<!-- style="font-size:18px" -->
+
+### **Introduction to Caching**
+
+Caching can dramatically improve performance
+
+Eliminating requests reduces the number of requests from the client
+
+* Uses Expiration Mechanism fo this purpose.
+
+Eliminating the need to send full responses reduces network bandwidth requirements.
+
+* Uses Validation Mechanism fo this purpose.
+
+So we have 2 models. Expiration & Validation model, which we wil look later
+
+* Cache sits between the Client application & the API It s the middle-men in our architecture.
+
+3 types of cache.
+
+* Private or Client cache.
+* Gateway cache or Server cache.
+* Proxy cache
+
+### **Expiration Model**
+
+Cache information can be specified in
+
+* expires Header: Expires Mon, 23 Jul, 2017
+
+* Cache control Header: cache-control: public, max-age= 2500
+
+When the client requests data for the first time, the data is cached either by private/shared cache.
+
+Subsequent requests use the max-age directive to decide if it should hit the API or cache.
+
+### **Validation Model**
+
+* To validate the freshness of a response that is cached.
+* Cache needs to check with the server, if the response has expired.
+* So,it validates aginst a validators.
+
+2 types of validators.
+
+* Strong validators - byte to byte comparison of the representation
+* Weak validators - looks for semantic equivalence.
+
+<br>
+
+For each request, Server will send a resource and an Etag for that resource. This response can be cached.
+
+* Example: tag: "3424"
+
+If the data is expired, the cache can send the Etag of the resource to the
+API with if-None-Match field, checking. i the resource is updated
+
+* iF-None-Match: "3424"
+
+If the resource is not updated, the Server sends a 304 (not modified) message to the cache. The Cache sends 200 Ok response to the client.
+
+If the resources updated, new data will be returned.
+
+### **Cache Control Directives**
+
+When the server sends a response, it can add several cache-control directives
+
+They are:
+
+* For Freshness: max-age, s-max-age
+* Other: no-store, no-cache
+* Cache.type: public, private.
+
+These directives can also be overridden by the Client while requesting the resource
+
+### **Concurrency in Rest**
+
+**Concurrency strategies:**
+
+* Concurrency strategy in REST (using Etag)
+
+**Issue:**
+
+* if User1 &  User2 gts resource at the same time.
+* Now User1 updates it
+* In a few seconds, if User2 also updates the resource, the changes of User1 are lost
+* To deal with this issue, we can use tokens (Etag).
+
+![image concurrency](images/concurrency.PNG)
+
+### **JSON Serialization**
+
+Media Types identify the format of the data.
+
+* Ex applcatin/json,applcation/ xml
+
+Media Types determine how the Web API serializes / DeSeralies the data with the help of MediaTypeFormatrer.
+
+Web API has built in support for Xml, JSON data. f you want to use custom data for example, CSV data, you can write your own MedTypeFormatter.
+
+JSON data is formatted by JsonMediaTypeFormater class.
+
+It use son brary to provide Seriazaton.
+
+Json.Library serializes public properties & fields
+
+[Jsonignore] attribute allows you to ignore any properties.
+
+You can alo use [DataContract] attribute to decorate the class & [DataMember] attribute to decorate the individual properties.
+
+Using the above approach, you can serialize even the private. members and allows you to have more control over the process.
+
+All Read-only properties are serialized by default
+
+### **Cache Model Validation**
+
+Sometimes, we need to validate the data before doing any processing. This is called Model Validation.
+
+We can use Data Annotations to perform Model Validatons.
+
+Some of the commonly used Annotations are:
+
+* [Required] - to indcate that a field is required.
+* [Range(0,10)] - to specify that the input values in this range.
+
+You can use ModelState.isVald to check the data against the validation attributes.
+
+Under-Posting - If all the values of a class are not specified.
+
+Over-Posting - If addtional values of a class are specified.
