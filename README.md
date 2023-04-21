@@ -12,7 +12,9 @@
 
 4. [**Spring Boot CRUD REST API using MYSQL Database**](#spring-boot-crud-rest-api-using-mysql-database) <!-- style="font-size:20px" -->
 
-5. **Caching**<!-- style="font-size:20px" -->
+5. [**CORS and Enabling CORS**](#cors-and-enabling-cors) <!-- style="font-size:20px" -->
+
+6. **Caching**<!-- style="font-size:20px" -->
 
 ## **REST API**
 
@@ -751,3 +753,45 @@ public class EmployeeController {
 <br>
 
 ![image spring](images/spring-7.PNG)
+
+## **CORS and Enabling CORS**
+
+Before understanding CORS let us understand Same Origin policy of browser.
+
+The same-origin policy is a browser security feature that restricts how documents and scripts on one origin can interact with resources on another origin.
+
+**Same Origin**
+
+Two URLs have same origins if they have identical schemes,host & ports
+
+**Scheme**
+
+* Scheme is a protocol
+* Ex: `http://localhost:8081` & `https://localhost:8081` have different origin because they have different schemes.
+
+**Host**
+
+* Host is a domain
+* Ex: `http://sample.com:500` & `https://sample.net:500` have diffrent origin because they have different domains.
+* Ex: `http://sample.com:500` & `https://web.sample.net:500` have different origin because they have different subdomians.
+
+**Port**
+
+* Port is a place where the application listens to.
+* Ex: `http://localhost:5000` & `https://localhost:5000` have different origin  because they have different posts (500 & 5000).
+
+Unless the requests is from the same origin, the request will be rejected by browser.
+
+**CORS**
+
+* Cross origin request sharing
+* By default, browsers prevent AJAX Request from the another origin.
+* CORS is a standard to relax the same-origin policy 
+* Selectively allow cross origin requests while rejecting others
+
+![image cors](images/cors.jpg)
+
+**How to enable CORS**
+
+* Add config.EnableCORS in WebAPIConfig
+* Add [EnableCors] attribute to controller class
