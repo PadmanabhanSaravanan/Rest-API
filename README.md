@@ -98,32 +98,81 @@ Architectural Constraints of RESTful API: There are six architectural constraint
 
 It is a key constraint that differentiate between a REST API and Non-REST API. It suggests that there should be an uniform way of interacting with a given server irrespective of device or type of application (website, mobile app). 
 
+![image uniformInterface](images/Uniform-Interface.jpg)
+
 There are four guidelines principle of Uniform Interface are:
 
 * **Resource-Based** : Individual resources are identified in requests. For example: API/users.
+
+```markdown
+http://adventure-works.com/orders/1
+```
+
 * **Manipulation of Resources Through Representations** : Client has representation of resource and it contains enough information to modify or delete the resource on the server, provided it has permission to do so. Example: Usually user get a user id when user request for a list of users and then use that id to delete or modify that particular user.
+
+```markdown
+{
+	"orderId":1,
+	"orderValue":99.90,
+	"productId":1,
+	"quantity":1
+}
+```
+
 * **Self-descriptive Messages** : Each message includes enough information to describe how to process the message so that server can easily analyses the request.
+
+```markdown
+GET /#!/user/admin HTTP/1.1
+User-Agent: Chrome/37.0.2062.94
+Accept: application/json
+Host: exampledomain.com
+```
+
 * **Hypermedia as the Engine of Application State (HATEOAS)** : It need to include links for each response so that client can discover other resources easily.
+
+```markdown
+{
+    "orderID":3,
+    "productID":2,
+    "quantity":4,
+    "orderValue":16.60,
+    "links": [
+        {"rel":"product","href":"http://adventure-works.com/customers/3", "action":"GET" },
+        {"rel":"product","href":"http://adventure-works.com/customers/3", "action":"PUT" } 
+    ]
+} 
+```
 
 #### **Stateless**
 
 It means that the necessary state to handle the request is contained within the request itself and server would not store anything related to the session. In REST, the client must include all information for the server to fulfill the request whether as a part of query params, headers or URI. Statelessness enables greater availability since the server does not have to maintain, update or communicate that session state. There is a drawback when the client need to send too much data to the server so it reduces the scope of network optimization and requires more bandwidth.
 
+![image Stateless](images/Stateless.jpg)
+
 #### **Cacheable**
 
 Every response should include whether the response is cacheable or not and for how much duration responses can be cached at the client side. Client will return the data from its cache for any subsequent request and there would be no need to send the request again to the server. A well-managed caching partially or completely eliminates some client–server interactions, further improving availability and performance. But sometime there are chances that user may receive stale data. 
+
+![image Cacheable](images/Cacheable.jpg)
 
 #### **Client-Server**
 
 REST application should have a client-server architecture. A Client is someone who is requesting resources and are not concerned with data storage, which remains internal to each server, and server is someone who holds the resources and are not concerned with the user interface or user state. They can evolve independently. Client doesn’t need to know anything about business logic and server doesn’t need to know anything about frontend UI. 
 
+![image Client-Server](images/Client-Server.jpg)
+
 #### **Layered system**
 
-An application architecture needs to be composed of multiple layers. Each layer doesn’t know any thing about any layer other than that of immediate layer and there can be lot of intermediate servers between client and the end server. Intermediary servers may improve system availability by enabling load-balancing and by providing shared caches. 
+An application architecture needs to be composed of multiple layers. Each layer doesn’t know any thing about any layer other than that of immediate layer and there can be lot of intermediate servers between client and the end server. Intermediary servers may improve system availability by enabling load-balancing and by providing shared caches.
+
+![image LayerdSystems](images/layered-systems.jpg)
 
 #### **Code on demand**
 
 It is an optional feature. According to this, servers can also provide executable code to the client. The examples of code on demand may include the compiled components such as Java Servlets and Server-Side Scripts such as JavaScript. 
+
+![image codeondemand](images/codeondemand.jpg)
+
 
 ### **Serialization**
 
