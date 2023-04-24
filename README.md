@@ -243,7 +243,7 @@ For example, if we send a GET request for users, we will get a response for user
 
 ## **Request and Response**
 
-* [**HTTP Request**](#understanding-http-request) <!-- style="font-size:18px" -->
+* [**HTTP Request**](#http-request) <!-- style="font-size:18px" -->
 * [**HTTP Response**](#http-responses) <!-- style="font-size:18px" -->
 * [**HTTP Methods**](#http-methods) <!-- style="font-size:18px" -->
 * [**Designing Rest URIs**](#designing-rest-URIs) <!-- style="font-size:18px" -->
