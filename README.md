@@ -108,7 +108,7 @@ There are four guidelines principle of Uniform Interface are:
 http://adventure-works.com/orders/1
 ```
 
-* **Manipulation of Resources Through Representations** : Client has representation of resource and it contains enough information to modify or delete the resource on the server, provided it has permission to do so. Example: Usually user get a user id when user request for a list of users and then use that id to delete or modify that particular user.
+* **Manipulation of Resources Through Representations** : Client has representation of resource and it contains enough information to modify or delete the resource on the server, provided it has permission to do so.
 
 ```markdown
 {
