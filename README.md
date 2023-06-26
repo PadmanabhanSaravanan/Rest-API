@@ -417,6 +417,8 @@ For HTTP/1.1, the set of common methods are defined below. This set can be expan
 * [**Building CRUD Rest APIs**](#building-crud-rest-apis) <!-- style="font-size:18px" -->
 * [**Test CRUD REST APIs using Postman**](#test-crud-rest-apis-using-postman) <!-- style="font-size:18px" -->
 
+
+
 ### **Initializing Spring Project**
 
 You can use the Spring Initializer website (start.spring.io) to generate a new Spring Boot project with the necessary dependencies.
@@ -425,7 +427,7 @@ Refer to the below screenshot to enter details while creating the spring boot ap
 
 ![image spring](images/spring-1.PNG)
 
-Click on Generate button to download the Spring boot project as a zip file. Unzip the zip file and import the Spring boot project in Spring Tool Suite.
+* **Click on Generate button to download the Spring boot project as a zip file. Unzip the zip file and import the Spring boot project in Spring Tool Suite.**
 
 Here is the pom.xml file for your reference:
 
@@ -756,6 +758,18 @@ public class EmployeeController {
 }
 ```
 
+<!-- style="font-size:22px;color:red;" -->
+**Note** : If you get the following error follow the steps which is given below the image
+
+<br>
+
+![image spring](images/erroroutput.png)
+
+* Intall/add lombok dependency to pom.xml
+* click on the below link for lombok dependency
+
+* [Link](https://mvnrepository.com/artifact/org.projectlombok/lombok)
+
 ### **Test CRUD REST APIs using Postman**
 
 * [**Create User REST API**](#create-user-rest-api) <!-- style="font-size:18px" -->
@@ -764,7 +778,28 @@ public class EmployeeController {
 * [**Get All Users REST API**](#get-all-users-rest-api) <!-- style="font-size:18px" -->
 * [**Delete User REST API**](#delete-user-rest-api) <!-- style="font-size:18px" -->
 
+<br>
+
+<!-- style="font-size:18px" -->
+**Installing Postman**
+
+<!-- style="font-size:18px" -->
+* [click on this link to install postman](https://www.postman.com/downloads/)
+
 #### **Create User REST API**
+
+<br>
+
+Data to add in request body
+
+```json
+{
+    "email" : "johnalexander@gmail.com",
+    "firstName" : "John",
+    "lastName" : "Alexander"
+}	
+
+```
 
 <br>
 
@@ -777,6 +812,19 @@ public class EmployeeController {
 ![image spring](images/spring-4.PNG)
 
 #### **Update User REST API**
+
+<br>
+
+Data to update in request body
+
+```json
+{
+    "email" : "elonmusk@gmail.com",
+    "firstName" : "Elon",
+    "lastName" : "Musk"
+}	
+
+```
 
 <br>
 
@@ -796,7 +844,7 @@ public class EmployeeController {
 
 ## **CORS and Enabling CORS**
 
-Before understanding CORS let us understand Same Origin policy of browser.
+Before understanding **CORS(Cross Origin Request Sharing)** let us understand Same Origin policy of browser.
 
 The same-origin policy is a browser security feature that restricts how documents and scripts on one origin can interact with resources on another origin.
 
